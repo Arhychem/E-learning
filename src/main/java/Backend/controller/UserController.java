@@ -2,7 +2,8 @@ package Backend.controller;
 
 import Backend.constants.Constants;
 import Backend.service.UserService;
-import Backend.utils.UserUtils;
+import Backend.utils.Utils;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,48 @@ public class UserController {
         } catch (Exception ex){
             ex.printStackTrace();
         }
-        return UserUtils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
 
+    }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<String> login(@RequestBody(required = true)Map<String, String> requestMap){
+        try {
+            return userService.login(requestMap);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @PostMapping(path = "/changePassword")
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        try {
+            userService.changePassword(requestMap);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @PostMapping(path = "/forgotPassword")
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+        try {
+
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping(path = "/checkToken")
+    public ResponseEntity<String> checkToken() {
+        try {
+            return userService.checkToken();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

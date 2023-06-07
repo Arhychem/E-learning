@@ -7,12 +7,14 @@ import Backend.constants.Constants;
 import Backend.entities.User;
 import Backend.repository.UserRepository;
 import Backend.service.UserService;
-import Backend.utils.UserUtils;
+import Backend.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -45,20 +47,71 @@ public class UserServiceImpl implements UserService {
                 User user = userRepository.findByEmailId(requestMap.get("email"));
                 if (Objects.isNull(user)) {
                     userRepository.save(getUserFromMap(requestMap));
-                    return UserUtils.getResponseEntity("Successfully registered", HttpStatus.OK);
+                    return Utils.getResponseEntity("Successfully registered", HttpStatus.OK);
                 } else {
-                    return UserUtils.getResponseEntity("Email already exist", HttpStatus.BAD_REQUEST);
+                    return Utils.getResponseEntity("Email already exist", HttpStatus.BAD_REQUEST);
                 }
             } else {
-                return UserUtils.getResponseEntity(Constants.INVALID_DATA, HttpStatus.BAD_REQUEST);
+                return Utils.getResponseEntity(Constants.INVALID_DATA, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            return UserUtils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+            return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
     }
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return Utils.getResponseEntity("true", HttpStatus.OK);
+    }
+    @Override
+    public ResponseEntity<String> login(Map<String, String> requestMap) {
+        log.info("Inside login");
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password"))
+            );
+            if (auth.isAuthenticated()){
+                if (customerUsersDetailsService.getUserDetail().getStatus().equalsIgnoreCase("true")){
+                    return new ResponseEntity<String>("{\"token\":\""+
+                            jwtUtil.generateToken(customerUsersDetailsService.getUserDetail().getEmail(),
+                                    customerUsersDetailsService.getUserDetail().getRole())+"\"}",
+                            HttpStatus.OK);
+                }
+                else {
+                    return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval."+"\"}",
+                            HttpStatus.BAD_REQUEST);
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            log.error("{}", e);
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        try{
+            User user = userRepository.findByEmailId(jwtFilter.getCurrentUser());
+            if (!user.equals(null)){
+                if (user.getPassword().equals(requestMap.get("oldPassword"))){
+                    user.setPassword(requestMap.get("newPassword"));
+                    userRepository.save(user);
+                    return Utils.getResponseEntity("Password updated successfully", HttpStatus.OK);
+                }
+                return Utils.getResponseEntity("Incorrect Old Password", HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
+            return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.BAD_REQUEST);
+    }
+
     private boolean validateSignUpMap(Map<String, String> requestMap){
         if (requestMap.containsKey("name") &&
                 requestMap.containsKey("email") && requestMap.containsKey("password") && requestMap.containsKey("role")
