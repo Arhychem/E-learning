@@ -39,6 +39,6 @@ public class System {
     @OneToMany(mappedBy = "systemeEducatif")
     private List<System> sousSystemesEducatifs; // liaison reccursive de systeme dans lui-meme car un sous syteme est un systeme
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sousSystemeEducatif", fetch = FetchType.LAZY)
-//    private List<Cycle> cycles;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sousSystemeEducatif", fetch = FetchType.LAZY)
+    private List<CycleScolaire> cycles;
  }

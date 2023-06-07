@@ -46,6 +46,13 @@ public class User implements Serializable {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "contactNumber")
+    private String contactNumber;
+
     @Column(columnDefinition = "varchar(255) default 'true'")
     private String status = "true";
+
+    @ManyToOne
+    @JoinColumn(name = "niveau_id")
+    private Niveau niveauScolaire;
 }
