@@ -1,0 +1,27 @@
+package Backend.label;
+
+public enum NiveauNameLabel {
+    SIXIEME,
+    FORM_ONE,
+    CINQUIEME,
+    FORM_TWO,
+    QUATRIEME,
+    FORM_THREE,
+    TROISIEME,
+    FORM_FOUR,
+    SECONDE_A,
+    FORM_FIVE_ART,
+    SECONDE_C,
+    FORM_FIVE_SCIENCE,
+    PREMIERE_A4,
+    LOWER_SIXTH_ART,
+    PREMIERE_D,
+    LOWER_SIXTH_SCIENCE,
+    PREMIERE_C,
+    PREMIERE_TI,
+    UPPER_SIXTH_ART,
+    TERMINALE_A4,
+    TERMINALE_C,
+    UPPER_SIXTH_SCIENCE
+
+}
