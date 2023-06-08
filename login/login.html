@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Page d'Inscription</title>
+  <link rel="stylesheet" type="text/css" href="login.css" />
+  <script src="login.js"></script>
+</head>
+
+<body>
+  <h2>Inscription</h2>
+  <form method="post" target="_self">
+    <fieldset>
+      <label for="name">Nom de famille / surname
+        <input type="text" id="name" name="nom_de_famille" placeholder="Enter your surname">
+      </label>
+      <label for="forename">Prénom / forename
+        <input type="text" id="forename" name="prenom" placeholder="Enter your forename">
+      </label>
+      <div class="sexe">
+        Sexe:
+        <label for="male">
+          <input type="radio" id=" sexe" name="sexe"> Male
+        </label>
+        <label for="female">
+          <input type="radio" id=" sexe" name="sexe"> Female
+        </label>
+    </fieldset>
+    <fieldset>
+      <label for="mail">Adresse mail
+        <input type="email" id="mail" name="emailaddr" placeholder="Enter your email">
+      </label>
+      <label for="pass">Mot de passe
+        <input type="password" name="pass" id="pass">
+      </label>
+      <label for="pass">Confirmer votre mot de passe
+        <input type="password" name="pass" id="pass">
+      </label>
+    </fieldset>
+      <input type="submit">
+      <p>Vous avez déja un compte, <a href="connexion.html">connectez vous!</a> </p>
+    </div>
+  </form>
+</body>
+
+</html>
