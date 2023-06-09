@@ -60,11 +60,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
     public boolean isAdmin(){
         System.out.println(authorizationHeader +" Ceci est authorizátionHeade");
-        return "admin".equalsIgnoreCase((String) claims.get("role"));
+        return "enseignant".equalsIgnoreCase((String) claims.get("role"));
     }
 
     public boolean isUser(){
-        return "user".equalsIgnoreCase((String) claims.get("role"));
+        return "apprenant".equalsIgnoreCase((String) claims.get("role"));
     }
 
     public String getCurrentUser(){

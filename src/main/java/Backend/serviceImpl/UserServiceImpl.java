@@ -1,5 +1,6 @@
 package Backend.serviceImpl;
 
+
 import Backend.JWT.JwtFilter;
 import Backend.JWT.JwtUtil;
 import Backend.JWT.UsersDetailsService;
@@ -7,7 +8,11 @@ import Backend.constants.Constants;
 import Backend.entities.User;
 import Backend.repository.UserRepository;
 import Backend.service.UserService;
+import Backend.utils.EmailUtils;
 import Backend.utils.Utils;
+import Backend.wrapper.UserWrapper;
+import com.google.common.base.Strings;
+import jdk.jshell.execution.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +22,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -37,6 +41,9 @@ public class UserServiceImpl implements UserService {
     JwtUtil jwtUtil;
     @Autowired
     JwtFilter jwtFilter;
+
+    @Autowired
+    EmailUtils emailUtils;
 
 
     @Override
@@ -112,9 +119,71 @@ public class UserServiceImpl implements UserService {
         return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.BAD_REQUEST);
     }
 
+    @Override
+    public ResponseEntity<List<UserWrapper>> getAllUser() {
+        try {
+            if (jwtFilter.isAdmin()){
+                return new ResponseEntity<>(userRepository.getAllUser(), HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> updateOwnProfile(Map<String, String> requestMap) {
+        try {
+            if (jwtFilter.isAdmin()){
+                Optional<User> optional = userRepository.findById(requestMap.get("id"));
+                if (!optional.isEmpty()){
+                    userRepository.updateStatus(requestMap.get("status"), requestMap.get("id"));
+                    sendMailToAllAdmin(requestMap.get("status"), optional.get().getEmail(), userRepository.getAllAdmin());
+                    return Utils.getResponseEntity("User status updated successfully", HttpStatus.OK);
+                }
+                else {
+                    Utils.getResponseEntity("This id does' nt exist", HttpStatus.OK);
+                }
+            }else {
+                return Utils.getResponseEntity("Unauthorized access", HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+        try{
+            User user = userRepository.findByEmailId(requestMap.get("email"));
+            if (!Objects.isNull(user) && !Strings.isNullOrEmpty(user.getEmail())){
+                emailUtils.forgotMail(user.getEmail(), "Credential by eLearning_GI2023", user.getPassword());
+            }
+            return Utils.getResponseEntity("Check your mail for credentials.", HttpStatus.OK);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private void sendMailToAllAdmin(String status, String user, List<String> allAdmin) {
+        allAdmin.remove(jwtFilter.getCurrentUser());
+        if (status != null && status.equalsIgnoreCase("true")){
+            emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Account approved", "USER:- "+user+"\n is approved by \nADMIN:-"+jwtFilter.getCurrentUser()+ ")",allAdmin);
+        } else {
+            emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Account approved", "USER:- "+user+"\n is disabled by \nADMIN:-"+jwtFilter.getCurrentUser()+ ")",allAdmin);
+        }
+    }
+
+
     private boolean validateSignUpMap(Map<String, String> requestMap){
         if (requestMap.containsKey("name") &&
-                requestMap.containsKey("email") && requestMap.containsKey("password") && requestMap.containsKey("role")
+                requestMap.containsKey("email") && requestMap.containsKey("password") && requestMap.containsKey("contactNumber")
                 ){
             return true;
         }
@@ -128,7 +197,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(requestMap.get("email"));
         user.setPassword(requestMap.get("password"));
 
-        user.setRole(requestMap.get("role"));
+        user.setContactNumber(requestMap.get("contactNumber"));
         return user;
     }
 }

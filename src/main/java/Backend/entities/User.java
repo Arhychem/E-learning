@@ -11,6 +11,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @NamedQuery(name = "User.findByEmailId", query = "select u from User u where u.email=:email")
+@NamedQuery(name = "User.getAllUser", query = "select new Backend.wrapper.UserWrapper(u.id,u.name,u.email,u.contactNumber,u.status) from User u where u.role='apprenant'")
+@NamedQuery(name = "User.updateStatus", query = "update User u set u.status=:status where u.id=:id")
+@NamedQuery(name = "User.getAllAdmin", query = "select u.email from User u where u.role='enseignant'")
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,6 +26,7 @@ import java.io.Serializable;
 @Table(name = "user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userId_seq")
     @GenericGenerator(name = "userId_seq",
@@ -43,8 +48,8 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
-    private String role;
+    @Column(columnDefinition = "varchar(255) default 'enseignant'")
+    private String role = "enseignant";
 
     @Column(name = "contactNumber")
     private String contactNumber;
@@ -52,7 +57,8 @@ public class User implements Serializable {
     @Column(columnDefinition = "varchar(255) default 'true'")
     private String status = "true";
 
-    @ManyToOne
-    @JoinColumn(name = "niveau_id")
-    private Niveau niveauScolaire;
+
+//    @ManyToOne
+//    @JoinColumn(name = "niveau_id")
+//    private Niveau niveauScolaire;
 }

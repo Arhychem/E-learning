@@ -39,8 +39,8 @@ public class Niveau {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "niveau", fetch = FetchType.LAZY)
     private List<Matiere> matieres;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "niveauScolaire", fetch = FetchType.LAZY)
-    private List<User> users;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "niveauScolaire", fetch = FetchType.LAZY)
+//    private List<User> users;
 
 
 
