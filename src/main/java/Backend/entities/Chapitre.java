@@ -2,7 +2,10 @@ package Backend.entities;
 
 import Backend.label.MatiereNameLabel;
 import Backend.utils.IdWithPrefixeGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,11 +13,15 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.List;
 
+@NamedQuery(name = "Chapitre.findAllChapitreByMatiereId", query = "select c from Chapitre c where c.matiere=:matiere_id")
 @Entity
 @Data
 @DynamicInsert
 @DynamicUpdate
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Chapitre")
+@Builder
 public class Chapitre {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chap_seq")

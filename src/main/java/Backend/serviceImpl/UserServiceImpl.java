@@ -91,6 +91,10 @@ public class UserServiceImpl implements UserService {
                             HttpStatus.BAD_REQUEST);
                 }
             }
+            else {
+                return new ResponseEntity<String>("{\"message\":\""+"Incorrect username or password"+"\"}",
+                        HttpStatus.BAD_REQUEST);
+            }
         }
         catch (Exception e){
             e.printStackTrace();

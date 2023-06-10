@@ -3,7 +3,10 @@ package Backend.entities;
 
 import Backend.label.NiveauNameLabel;
 import Backend.utils.IdWithPrefixeGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,9 +15,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Builder
 @Data
 @DynamicInsert
 @DynamicUpdate
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "niveau")
 public class Niveau {
     @Id
@@ -30,9 +36,9 @@ public class Niveau {
     private String niveauId;
 
     @Column(columnDefinition = "varchar(255)")
-    private NiveauNameLabel niveauName;
+    private String niveauName;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "cycle_id")
     private CycleScolaire cycleScolaire;
 

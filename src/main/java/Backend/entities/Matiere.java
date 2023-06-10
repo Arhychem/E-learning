@@ -23,18 +23,22 @@ public class Matiere {
             strategy = "Backend.utils.IdWithPrefixeGenerator",
             parameters = {
                     @org.hibernate.annotations.Parameter(name = IdWithPrefixeGenerator.INCREMENT_PARAM, value = "1"),
-                    @org.hibernate.annotations.Parameter(name = IdWithPrefixeGenerator.VALUE_PREFIX_PARAMETER, value = "niv_"),
+                    @org.hibernate.annotations.Parameter(name = IdWithPrefixeGenerator.VALUE_PREFIX_PARAMETER, value = "mat_"),
                     @org.hibernate.annotations.Parameter(name = IdWithPrefixeGenerator.NUMBER_FORMAT_PARAMETER, value = "%02d")
             })
     @Column(name = "matiereId")
     private String matiereId;
 
     @Column(columnDefinition = "varchar(255)")
-    private MatiereNameLabel matiereName;
+    private String matiereName;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "niveau_id")
     private Niveau niveau;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "matiere", fetch = FetchType.LAZY)
     private List<Chapitre> chapitres;

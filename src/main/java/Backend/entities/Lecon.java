@@ -2,17 +2,24 @@ package Backend.entities;
 
 import Backend.label.MatiereNameLabel;
 import Backend.utils.IdWithPrefixeGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+@NamedQuery(name = "Lecon.findAllLeconByChapitreId", query = "select l from Lecon l where l.chapitre=:chapitre_id")
 @Entity
 @Data
 @DynamicInsert
 @DynamicUpdate
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "lecon")
 public class Lecon {
     @Id

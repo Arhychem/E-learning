@@ -48,7 +48,7 @@ public class UserController {
     @PostMapping(path = "/changePassword")
     public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
         try {
-            userService.changePassword(requestMap);
+           return userService.changePassword(requestMap);
         } catch (Exception ex){
             ex.printStackTrace();
         }

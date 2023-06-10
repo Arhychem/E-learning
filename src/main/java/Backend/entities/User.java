@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @NamedQuery(name = "User.findByEmailId", query = "select u from User u where u.email=:email")
 @NamedQuery(name = "User.getAllUser", query = "select new Backend.wrapper.UserWrapper(u.id,u.name,u.email,u.contactNumber,u.status) from User u where u.role='apprenant'")
@@ -56,6 +57,9 @@ public class User implements Serializable {
 
     @Column(columnDefinition = "varchar(255) default 'true'")
     private String status = "true";
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Matiere> matieres;
 
 
 //    @ManyToOne

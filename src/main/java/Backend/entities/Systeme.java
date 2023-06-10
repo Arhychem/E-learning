@@ -1,9 +1,9 @@
 package Backend.entities;
 
-import Backend.label.SysNameLabel;
 import Backend.utils.IdWithPrefixeGenerator;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,12 +11,18 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.List;
 
+@NamedQuery(name = "Systeme.getAllSubSysteme", query = "select s from Systeme s where s.systemeEducatifParent is not null")
+//@NamedQuery(name = "Systeme.findAllSousSystemeBySystemeParentId", query = "select s from Systeme s where s.systemeEducatifParent=:systeme_parent_id")
+@NamedQuery(name = "Systeme.getSysteme", query = "select s from Systeme s where s.systemeEducatifParent is null")
+@NamedQuery(name = "Systeme.findByName", query = "select s from Systeme s where s.systemeName=:systeme_name")
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "systemeEducatif")
-public class System {
+public class Systeme {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sysId_seq")
     @GenericGenerator(name = "sysId_seq",
@@ -30,14 +36,14 @@ public class System {
     private String systemeId;
 
     @Column(columnDefinition = "varchar(255)")
-    private SysNameLabel systemeName;
+    private String systemeName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "systeme_parent_id")
-    private System systemeEducatif;
+    private Systeme systemeEducatifParent;
 
-    @OneToMany(mappedBy = "systemeEducatif")
-    private List<System> sousSystemesEducatifs; // liaison reccursive de systeme dans lui-meme car un sous syteme est un systeme
+    @OneToMany(mappedBy = "systemeEducatifParent")
+    private List<Systeme> sousSystemesEducatifs; // liaison reccursive de systeme dans lui-meme car un sous syteme est un systeme
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sousSystemeEducatif", fetch = FetchType.LAZY)
     private List<CycleScolaire> cycles;
