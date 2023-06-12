@@ -1,0 +1,33 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span>Ajout de la lecon ou modification de la liason</span>
+    <span class="spacer"></span>
+    <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="addLeconForm">
+   <div fxFlex fxLayout="column">
+
+    <mat-form-field  fxFlex>
+      <mat-label>Nom de la Lecon</mat-label>
+      <input matInput formControlName="leconName" required >
+      <mat-error *ngIf="addLeconForm.controls.leconName.touched && addLeconForm.controls.leconName.invalid">
+        <span *ngIf="addLeconForm.controls.leconName.errors.required">Champ necessaire</span>
+        <span *ngIf="addLeconForm.controls.leconName.errors.pattern">Champ invalide</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-dialog-actions align="end">
+      <button mat-raised-button color="#2dabb4" type="submit" (click)="handleSubmit()">
+        <mat-icon>save</mat-icon> Ajouter
+      </button>
+      <button mat-raised-button color="warn" mat-dialog-close><mat-icon>cancel</mat-icon>Close</button>
+    </mat-dialog-actions>
+
+   </div>
+  </form>
+  </mat-dialog-content>
