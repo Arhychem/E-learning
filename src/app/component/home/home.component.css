@@ -1,0 +1,113 @@
+*{
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: montserrat;
+}
+
+nav{
+  background: #2dabb4;
+  height: 80px;
+  width: 100%;
+}
+label.logo{
+  color: white;
+  font-size: 35px;
+  line-height: 80px;
+  padding: 0 100px;
+  font-weight: bold;
+}
+nav ul{
+  float: right;
+  margin-right: 20px;
+}
+nav ul li{
+  display: inline-block;
+  line-height: 80px;
+  margin: 0 5px;
+  font-size: 20px;
+  color: white;
+}
+nav ul li a{
+  color: white;
+  padding: 7px,13px;
+  border-radius: 3px;
+
+}
+a.active, a:hover{
+  background: #089faa;
+  transition: .5s;
+  cursor: pointer;
+
+}
+.checkbtn{
+  font-size: 30px;
+  color: white;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: pointer;
+  display: none;
+}
+
+#check{
+  display: none;
+}
+
+@media (max-width: 952px) {
+  label.logo{
+    font-size: 30px;
+    padding-left: 50px;
+  }
+  nav ul li{
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 858px) {
+  .checkbtn{
+    display: block;
+  }
+  ul{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 80px;
+    left: 0;
+    text-align: center;
+  }
+  nav ul li{
+    display: block;
+  }
+}
+.corps{
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(#40888d, #32848a);
+  background-size: cover;
+  background-position: center;
+}
+.contenu{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: white;
+  font-family: montserrat;
+}
+.contenu h1{
+  font-size: 50px;
+  margin-top: 80px;
+}
+.contenu p{
+  margin: 20px auto;
+  font-weight: 100;
+  line-height: 25px;
+  font-size: 20px;
+}

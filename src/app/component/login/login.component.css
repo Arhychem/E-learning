@@ -1,0 +1,13 @@
+.mat-toolbar{
+  margin: 0px;
+  width: auto;
+  height: 80px;
+  margin-bottom: 10px;
+}
+mat-form-field{
+  padding: 5px;
+}
+
+max-hint{
+  color: red;
+}

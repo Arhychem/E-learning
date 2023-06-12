@@ -1,0 +1,95 @@
+ mat-toolbar{
+  background-color: #2dabb4;
+  color: white;
+  height: 80px;
+}
+mat-sidenav{
+  margin: 16px;
+  width: 200px;
+  border-right: none;
+  background: #2dabb4;
+  color: white;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+mat-sidenav-container{
+  height: calc(100vh - 65px);
+}
+.content{
+  /* height: calc(100vh - 98px); */
+  margin: 16px;
+  margin-left: 50px;
+  display: flex;
+  gap: 30px;
+  font-size: 1.3rem;
+  color: lightgray;
+}
+.menu-button{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  margin: 0 5px;
+  font-size: 20px;
+  color: white;
+
+  mat-icon{
+    margin-right: 8px;
+    font-size: 10px;
+  }
+}
+.designation{
+  margin-top: 2px;
+  font-size: 1rem;
+  color: lightgrey;
+}
+.name{
+  margin: 0;
+  margin-top: 150px;
+  font-size: 35px;
+  font-weight: normal;
+}
+
+mat-divider{
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+span.logo{
+  color: white;
+  font-size: 35px;
+  line-height: 80px;
+  padding: 0 100px;
+  font-weight: bold;
+}
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #32848a;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-weight: normal;
+}
+
+.button:hover {
+  background-color: #1cadb8;
+}
+.title {
+  color: black;
+  text-align: center !important;
+  font-size: 1.5rem;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
+}
+span.add{
+  color: white;
+}

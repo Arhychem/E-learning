@@ -1,0 +1,13 @@
+
+<div class="myStyle">
+    <mat-card class="style-mat-card">
+    <mat-card-actions>
+        <button mat-button color="warn" (click)="onClick()">
+            <mat-icon>file_upload</mat-icon>
+            Upload
+        </button>
+    </mat-card-actions>
+</mat-card><input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" accept=".pdf, .txt" style="display:none;" />
+<span >{{fileName}}</span>
+</div>
+

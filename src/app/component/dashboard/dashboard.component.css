@@ -1,0 +1,174 @@
+/* .position-relative {
+	position: relative;
+}
+
+.add-contact {
+	position: absolute;
+    right: 17px;
+    top: 57px;
+}
+
+  html {
+    box-sizing: border-box;
+  }
+
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  .column {
+    float: left;
+    width: 33.3%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 8px;
+  }
+
+  .about-section {
+    padding: 50px;
+    text-align: center;
+    background-color: #474e5d;
+    color: white;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .container::after, .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .title {
+    color: black;
+    text-align: center !important;
+  }
+
+  .button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #32848a;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .button:hover {
+    background-color: #1cadb8;
+  }
+
+  @media screen and (max-width: 650px) {
+    .column {
+      width: 100%;
+      display: block;
+    }
+  }
+ */
+
+
+mat-toolbar{
+  background-color: #2dabb4;
+  color: white;
+  height: 80px;
+}
+mat-sidenav{
+  margin: 16px;
+  width: 200px;
+  border-right: none;
+  background: #2dabb4;
+  color: white;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+mat-sidenav-container{
+  height: calc(100vh - 65px);
+}
+.content{
+  height: calc(100vh - 98px);
+  margin: 16px;
+  margin-left: 50px;
+  display: flex;
+  gap: 30px;
+  /* justify-content: center;
+  align-items: center; */
+
+  font-size: 1.3rem;
+  color: lightgray;
+}
+.menu-button{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  margin: 0 5px;
+  font-size: 20px;
+  color: white;
+
+  mat-icon{
+    margin-right: 8px;
+    font-size: 10px;
+  }
+}
+.designation{
+  margin-top: 2px;
+  font-size: 1rem;
+  color: lightgrey;
+}
+.name{
+  margin: 0;
+  margin-top: 150px;
+  font-size: 35px;
+  font-weight: normal;
+}
+
+mat-divider{
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+span.logo{
+  color: white;
+  font-size: 35px;
+  line-height: 80px;
+  padding: 0 100px;
+  font-weight: bold;
+}
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #32848a;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-weight: normal;
+}
+
+.button:hover {
+  background-color: #1cadb8;
+}
+.title {
+  color: black;
+  text-align: center !important;
+  font-size: 1.5rem;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
+}
+

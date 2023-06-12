@@ -1,0 +1,22 @@
+<mat-toolbar class="justify-content-between">
+  <span class="logo">e-Learning GI_2023</span>
+  <div class="profile">
+    <button mat-button class="menu-button">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened>
+
+    <h4 class="name"> Mr Prof </h4>
+    <p class="designation">Enseignant</p>
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+  </mat-sidenav>
+  <div class="content" fxLayout="row wrap">
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>
