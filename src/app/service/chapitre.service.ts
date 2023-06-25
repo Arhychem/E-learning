@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environment/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ChapitreModel } from '../component/model/ChapitreModel';
 import { Observable } from 'rxjs';
 
@@ -17,5 +17,11 @@ export class ChapitreService {
     return this.httpClient.get<ChapitreModel[]>(this.url+"/chapitre/getAllByMatiereId",{
       params: new HttpParams().set('matiereId', id)
     });
+   }
+
+   addNewChapter(data: any){
+    return this.httpClient.post(this.url+"/chapitre/add", data, {
+      headers: new HttpHeaders().set('content-Type', 'application/json')
+    })
    }
 }

@@ -17,6 +17,7 @@ import { UploadFileComponent } from '../upload-file/upload-file.component';
   styleUrls: ['./lecon.component.css']
 })
 export class LeconComponent implements OnInit {
+
   lecons: LeconModel[];
   data: any;
   responseMessage: any;
@@ -38,17 +39,17 @@ export class LeconComponent implements OnInit {
 
   addDocument() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = "550px";
+    dialogConfig.width = "850px";
     this.dialog.open(UploadFileComponent, dialogConfig)
   }
   getAllLeconByChapitre() {
     this.activatedRoute.params.subscribe(params => {
       this.data = params
+      this.chapitreId = this.data.id;
       this.leconService.getAllLeconByChapitre(this.data.id).subscribe({
         next: (response: any) => {
           this.ngxService.stop();
           this.lecons = response;
-          this.chapitreId = this.lecons[0].chapitreId;
           console.log(this.lecons);
         },
         error: (error: any) => {
@@ -68,10 +69,7 @@ export class LeconComponent implements OnInit {
   handleAddAction() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "550px";
-    dialogConfig.data = {
-      chapitreId: this.chapitreId,
-      isUpdate: false
-    }
+    dialogConfig.data = this.chapitreId;
     this.dialog.open(AddLeconComponent, dialogConfig).afterClosed().subscribe({
       next: (response: any) => {
         this.getAllLeconByChapitre();
@@ -90,6 +88,14 @@ export class LeconComponent implements OnInit {
       next: (response: any) => {
         this.getAllLeconByChapitre();
       }
+    });
+  }
+
+  deleteLecon(leconId: string) {
+    this.leconService.deleteLecon(leconId).subscribe({
+      next: (reponse:any) =>{
+        console.log(reponse)
+      },error: error => console.log(error)
     });
   }
 }

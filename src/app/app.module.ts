@@ -65,8 +65,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FullComponent } from './component/full/full.component';
 import { AddLeconComponent } from './component/add-lecon/add-lecon.component';
 import { AddChapterComponent } from './component/add-chapter/add-chapter.component';
-import { UploadDocumentComponent } from './component/upload-document/upload-document.component';
+
 import { UploadFileComponent } from './component/upload-file/upload-file.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -94,7 +95,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FullComponent,
     AddLeconComponent,
     AddChapterComponent,
-    UploadDocumentComponent,
     UploadFileComponent
   ],
   imports: [
@@ -141,6 +141,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     OverlayModule,
     PlatformModule,
     PortalModule,
+    NgxDropzoneModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

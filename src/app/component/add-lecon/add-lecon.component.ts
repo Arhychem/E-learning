@@ -44,10 +44,11 @@ export class AddLeconComponent implements OnInit{
       leconName : formData.leconName,
       chapitreId: this.chapitreId
     }
+    console.log(data);
     this.leconService.addNewLecon(data).subscribe({
       next:(reponse: any) =>{//S'il n'y a pas d'erreur
       this.ngxService.stop();
-      this.dialogRef.close();
+      // this.dialogRef.close();
       this.reponseMessage = reponse?.message;
       this.snackBarService.openSnackBar(this.reponseMessage, "");
 

@@ -36,7 +36,7 @@
         <mat-card-actions>
           <button mat-button (click)="addDocument()">Consulter les medias</button>
           <button mat-button (click)="handleModifyAction()">Modifier</button>
-          <button mat-button>Supprimer</button>
+          <button mat-button (click)="deleteLecon(lecon.leconId)">Supprimer</button>
         </mat-card-actions>
       </mat-card>
 

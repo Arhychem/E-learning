@@ -23,6 +23,16 @@ export class LeconService {
    addNewLecon(data: any){
     return this.httpClient.post(this.url+"/lecon/add", data, {
       headers: new HttpHeaders().set('content-Type', 'application/json')
-    })
+    });
+   }
+
+   deleteLecon(leconId: string){
+    return this.httpClient.delete(this.url+"/lecon/delete/"+leconId);
+   }
+
+   updatelecon(data:any){
+    return this.httpClient.post(this.url+"/lecon/update",data,{
+      headers: new HttpHeaders().set('content-Type', 'application/json')
+    });
    }
 }

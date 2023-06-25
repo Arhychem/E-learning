@@ -1,57 +1,72 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FileUploadService } from 'src/app/service/file-upload.service';
+import { FileService } from 'src/app/service/file.service';
+import { FileModel } from '../model/FileModel';
+
 
 
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
-  styleUrls: ['./upload-file.component.less']
+  styleUrls: ['./upload-file.component.css']
 })
 export class UploadFileComponent implements OnInit {
-  @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];
-    fileName:string;
+  filesInDataBase: FileModel[];
+  itemToUpdate:any;
 
-  constructor(private fileUploadService:FileUploadService) { }
+  lire = true;
+  videoUrl = "";
 
+  constructor(private fileService: FileService ) { }
 
   ngOnInit() {
   }
 
-
-  onClick() {
-    const fileUpload = this.fileUpload.nativeElement;fileUpload.onchange = () => {
-    for (let index = 0; index < fileUpload.files.length; index++)
-    {
-     const file = fileUpload.files[index];
-      this.fileName = file.name +" is uploaded"
-
-     this.files.push({ data: file, inProgress: false, progress: 0});
-    }
-      this.uploadFiles();
-    };
-    fileUpload.click();
-}
-private uploadFiles() {
-  this.fileUpload.nativeElement.value = '';
-  this.files.forEach(file => {
-    this.uploadFile(file);
-  });
-}
-uploadFile(file) {
-  const formData = new FormData();
-  formData.append('file', file.data);
-  file.inProgress = true;
-  this.fileUploadService.upload(formData).subscribe(
-    rsp => {
-      console.log(rsp.type)
-
-
-
-},
-    error => {
-      console.log(error)
-    });
+files: File[] = [];
+onSelect(event:any) {
+  this.files.push(...event.addedFiles);
+  console.log(this.files[this.files.length -1].name);
+  this.fileService.copyFiles(this.files[this.files.length -1].name).subscribe({
+    next: (response:any)=>{
+      this.videoUrl = "/assets/"+this.files[this.files.length -1].name;
+    },
+    error: (err:any)=>console.log(err)
+  })
+  console.log(this.files);
 
 }
+
+onRemove(event:any) {
+  console.log(event);
+  this.files.splice(this.files.indexOf(event), 1);
+}
+
+clickFileInput(fileInput:any, item:any){
+  this.itemToUpdate = item;
+  fileInput.click()
+}
+onFileChange(event:any){
+  const file: File = event.target.files[0];
+  console.log(file);
+  let formData = new FormData();
+  formData.append("name", this.itemToUpdate.name);
+  formData.append("file", file);
+  formData.append("id", "idTest");
+  this.addFile(formData)
+
+}
+addFile(data:FormData){
+  this.fileService.addDocument(data).subscribe({
+    next:(reponse:any)=>{
+      this.itemToUpdate.value = reponse.message;
+    },
+    error: error=>console.log()
+  })
+}
+// openModal(content:any){
+//   this.modalService.open(content, {centered: true});
+// }
+// openElementsModal(content: any, cat: string){
+//   this.openModal(content);
+// }
 
 }

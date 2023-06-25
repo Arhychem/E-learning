@@ -8,6 +8,7 @@ import { ChapitreService } from 'src/app/service/chapitre.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddLeconComponent } from '../add-lecon/add-lecon.component';
+import { AddChapterComponent } from '../add-chapter/add-chapter.component';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class ChapitreComponent implements OnInit{
   }
   getAllChapitreByMatiere(){
     this.activatedRoute.params.subscribe(params=>{
-      this.data = params
+      this.data = params;
+      this.matiereId = this.data.id;
       this.chapitreService.getAllChapitreByMatiere(this.data.id).subscribe({
         next:(response:any)=>{
           this.ngxService.stop();
@@ -60,9 +62,14 @@ export class ChapitreComponent implements OnInit{
       });
     });
   }
-  handleAddAction(matiereid : string){
+  handleAddAction(){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "550px";
-    this.dialog.open(AddLeconComponent, dialogConfig);
+    dialogConfig.data = this.matiereId;
+    this.dialog.open(AddChapterComponent, dialogConfig).afterClosed().subscribe({
+      next: (response: any) => {
+        this.getAllChapitreByMatiere();
+      }
+    });
   }
 }

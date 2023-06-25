@@ -1,6 +1,7 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environment/environment';
-import { HttpClient, HttpEvent } from '@angular/common/http';
+import { FileModel } from '../component/model/FileModel';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,20 +10,30 @@ import { Observable } from 'rxjs';
 export class FileService {
   url = environment.apiUrl;
 
+
   constructor(private httpClient: HttpClient) { }
-
-  upload(formData: FormData): Observable<HttpEvent<string[]>>{
-    return this.httpClient.post<string[]>(`${this.url}/file/upload`,formData,{
-      reportProgress: true,
-      observe: 'events'
+  getAllFilesByLeconId(leconId:string):Observable<FileModel[]>{
+    return this.httpClient.get<FileModel[]>(this.url+"/file/getAllByLeconId",{
+      params: new HttpParams().set('leconId', leconId)
     })
   }
 
-  download(filename: string): Observable<HttpEvent<Blob>>{
-    return this.httpClient.get(`${this.url}/file/download/${filename}`,{
-      reportProgress: true,
-      observe: 'events',
-      responseType: 'blob'
+  viewFiles(fileLocation:string){
+    return this.httpClient.get(this.url+"/file/viewFiles",{
+      params: new HttpParams().set('fileLocation', fileLocation)
+    });
+  }addDocument(data:any){
+    return this.httpClient.post(this.url+"/file/addDocument", data);
+  }
+
+  getFileName(file:any){
+    return this.httpClient.get(this.url + "/files/getFilesName",{
+      params: new HttpParams().set('file', file)
     })
   }
+
+  copyFiles(fileName:any){
+    return this.httpClient.post(this.url +"/files/copyFiles", fileName);
+  }
+
 }
